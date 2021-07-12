@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import './navigation.css';
 import Header from './header';
 //import {Link} from 'react-router-dom';
@@ -9,6 +9,15 @@ import logo from '../../../logo.svg';
 
 const Navigation=(props)=>{
 	const [drawerIsOpen,setDrawerIsOpen]=useState(false);
+
+	const url=JSON.parse(localStorage.getItem('url'));
+	let url_l=null;
+	useEffect(()=>{
+		if(url)
+			url_l=url["url"]
+		console.log(url_l);
+	},[]);
+	console.log(url);
 
 	const openDrawer=()=>{
 		setDrawerIsOpen(true);
@@ -23,7 +32,7 @@ const Navigation=(props)=>{
 			{drawerIsOpen && <Backdrop onClick={closeDrawer}/>}
 			<SideDrawer show={drawerIsOpen} onClick={closeDrawer}>
 				<nav className="main-navigation__drawer-nav">
-					<Navlinks/>
+					<Navlinks params={url_l}/>
 				</nav>
 			</SideDrawer>
 			<Header>
@@ -39,7 +48,7 @@ const Navigation=(props)=>{
 					EnableCap
 				</h1>
 				<nav className="main-navigation__header-nav">
-					<Navlinks/>
+					<Navlinks params={url_l}/>
 				</nav>
 			</Header>
 		</React.Fragment>

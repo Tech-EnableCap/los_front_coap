@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import './form.css';
 import Input from '../../shared/components/formelements/input';
 import {VALIDATOR_REQUIRE,VALIDATOR_EMAIL,VALIDATOR_PHONE,VALIDATOR_NUMBER} from '../../shared/util/validator';
+import {useParams} from "react-router-dom";
 import Personal from './personal_details';
 import {useForm} from '../../shared/hooks/form_hook';
 import {useHttp} from '../../shared/hooks/http_hook';
@@ -11,8 +12,10 @@ import Err from '../../ui/error.js';
 import Button from '../../ui/button';
 import UserStatus from '../../shared/components/status/user_status';
 import Status from '../../shared/components/status/status';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 const Form=(props)=>{
+	const id=useParams();
 	let uid=null;
 	let pid=null;
 	let res=null;
@@ -180,39 +183,46 @@ const Form=(props)=>{
 				console.log(res)
 			}else*/ 
 			if(!uid && otpValid){
-				res=await sendReq('http://localhost:5000/',
+				res=await sendReq('http://localhost:5000/coappidentification',
 					'POST',
-					JSON.stringify({
-						data:{
-							/*loan_app_name:{
-								prefix:"",
-								first_name:formState.inputs.first_name.value,
-								last_name:formState.inputs.last_name.value,
-								suffix:""
-							},*/
-							name:{
-								prefix:"",
-								first_name:formState.inputs.first_name.value,
-								last_name:formState.inputs.last_name.value,
-								suffix:""
-							},
-							app_name:{
-								prefix:"",
-								first_name:formState.inputs.first_name.value,
-								last_name:formState.inputs.last_name.value,
-								suffix:""
-							},
-							app_Name:{
-								prefix:"",
-								first_name:formState.inputs.first_name.value,
-								last_name:formState.inputs.last_name.value,
-								suffix:""
-							},
-							//loan_app_mail:formState.inputs.email.value,
-							email:formState.inputs.email.value,
-							app_mail:formState.inputs.email.value,
-							Mobile:formState.inputs.phone.value,
-							Applicant_Phone:formState.inputs.phone.value
+						JSON.stringify({
+							content1:{
+								data:{
+								/*loan_app_name:{
+									prefix:"",
+									first_name:formState.inputs.first_name.value,
+									last_name:formState.inputs.last_name.value,
+									suffix:""
+								},*/
+								name:{
+									prefix:"",
+									first_name:formState.inputs.first_name.value,
+									last_name:formState.inputs.last_name.value,
+									suffix:""
+								},
+								app_name:{
+									prefix:"",
+									first_name:formState.inputs.first_name.value,
+									last_name:formState.inputs.last_name.value,
+									suffix:""
+								},
+								//loan_app_mail:formState.inputs.email.value,
+								email:formState.inputs.email.value,
+								app_mail:formState.inputs.email.value,
+								Mobile:formState.inputs.phone.value
+							}
+						},
+						content2:{
+							criteria: "(lid.contains(\""+id["id"]+"\"))",
+							data:{
+								coapp_Name:{
+									prefix:"",
+									first_name:formState.inputs.first_name.value,
+									last_name:formState.inputs.last_name.value,
+									suffix:""
+								},
+								Co_Applicant_Phone:formState.inputs.phone.value
+							}
 						}
 					}),
 					{
@@ -224,7 +234,7 @@ const Form=(props)=>{
 				if(!pid && res.msg.success && res.msg.success1 && res.msg.success2){
 					let id=res.msg.success.data.ID;
 					let did=res.msg.success1.data.ID;
-					let lid=res.msg.success2.data.ID;
+					let lid=res.msg.success2.result[0].data.ID;
 					localStorage.setItem(
 						'id',
 						JSON.stringify({uid:id})

@@ -78,7 +78,7 @@ const LoanDetails=(props)=>{
 				const storedId=JSON.parse(localStorage.getItem('lid'));
 				if(storedId){
 					lid=storedId.lid;
-					res=await sendReq("http://localhost:5000/getUserform1",
+					res=await sendReq("http://localhost:5000/getloandetails",
 						"GET",
 						null,
 						{
@@ -96,7 +96,6 @@ const LoanDetails=(props)=>{
 								res.msg.success.data.Course_Fee_Amount !== "" || 
 								res.msg.success.data.Financing_Requirement !== "" || 
 								res.msg.success.data.Loan_Tenure !== ""){
-								console.log("here")
 								setUser(res.msg.success.data);
 								if(res.msg.success.data.Type_of_Institute){
 									setSchool(res.msg.success.data.Institute_Type);
@@ -173,6 +172,18 @@ const LoanDetails=(props)=>{
 		window.location.reload();
 	};
 
+	const nextHandle=()=>{
+		setFront(true);
+		if(parseInt(pid)==2){
+			localStorage.setItem(
+				'pid',
+				JSON.stringify({pid:3})
+			);
+		}
+	}
+
+	/*
+
 	const nextHandle=async (event)=>{
 		event.preventDefault();
 		try{
@@ -238,6 +249,8 @@ const LoanDetails=(props)=>{
 		
 	}
 
+	*/
+
 
 	
 
@@ -254,7 +267,7 @@ const LoanDetails=(props)=>{
 				initvalue={user.Class_of_Student}
 				initvalid={true} />
 			);
-		}else{
+		}/*else{
 			element=(
 				<Input element="input" type="text" label="Class of Student" 
 				validators={[VALIDATOR_REQUIRE()]}
@@ -265,7 +278,7 @@ const LoanDetails=(props)=>{
 				initvalue={formState1.inputs.cls.value}
 				initvalid={formState1.inputs.cls.isValid} />
 			);
-		}
+		}*/
 	}else{
 		element=null;
 	}
@@ -281,7 +294,7 @@ const LoanDetails=(props)=>{
 		component=<Personal go="update"/>;
 	}else if(loading){
 		component=<Loader asOverlay />
-	}else if(props.go && parseInt(pid)>=3){
+	}else if(props.go && parseInt(pid)>=2){
 		if(user && user.Institute_Type){
 			component=(
 				<React.Fragment>
@@ -376,7 +389,7 @@ const LoanDetails=(props)=>{
 		}else{
 			component=<UserStatus err={true} reload={reloadHandle}/>;
 		}
-		}else{
+	}/*else{
 
 			component=(
 				<React.Fragment>
@@ -461,7 +474,7 @@ const LoanDetails=(props)=>{
 				</form>
 				</React.Fragment>
 			);
-		}
+		}*/
 		
 
 

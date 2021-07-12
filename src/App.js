@@ -20,17 +20,17 @@ function App() {
 	let element=null;
 	if(pid){
 		if(parseInt(pid)==1){
-			element=<Form go="update"/>
+			element=<Form/>
 		}if(parseInt(pid)==2){
-			element=<Personal go="update"/>
+			element=<Personal/>
 		}if(parseInt(pid)==3){
-			element=<LoanDetails go="update"/>
+			element=<LoanDetails/>
 		}if(parseInt(pid)==4){
-			element=<Residence go="update"/>
+			element=<Residence/>
 		}if(parseInt(pid)==5){
-			element=<WorkDetails go="update"/>
+			element=<WorkDetails/>
 		}if(parseInt(pid)==6){
-			element=<DocUpload go="update"/>
+			element=<DocUpload/>
 		}
 	}else{
 		element=<Form/>
@@ -41,14 +41,13 @@ function App() {
     
       <Navigation/>
       	<Switch>
-       <Route path="/form" exact>
-
-        {element}
-        <Footer/>
-       </Route>
-        <Route path="/" exact>
+        <Route path="/:id" exact>
        	  <UserStatus pid={pid} err={false}/>
           <Footer/>
+       </Route>
+       <Route path="/:id/form" exact>
+        {element}
+        <Footer/>
        </Route>
        </Switch>
     </Router>
