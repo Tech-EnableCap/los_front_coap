@@ -1,0 +1,2 @@
+pm2 delete LOS_FC
+pm2 start npm --name "LOS_FC" -- start
