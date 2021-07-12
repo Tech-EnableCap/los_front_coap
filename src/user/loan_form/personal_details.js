@@ -5,6 +5,7 @@ import Form from './form';
 import {useForm} from '../../shared/hooks/form_hook';
 import Input from '../../shared/components/formelements/input';
 import {VALIDATOR_REQUIRE} from '../../shared/util/validator';
+import {useParams} from "react-router-dom";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import LoanDetails from './loan_details';
@@ -17,6 +18,7 @@ import Status from '../../shared/components/status/status';
 
 
 const Personal=(props)=>{
+	const id=useParams();
 	let uid=null;
 	let pid=null;
 	let res=null;
@@ -140,7 +142,7 @@ const Personal=(props)=>{
 							}
 						},
 						content2:{
-							criteria: "(lid.contains(\"EC15d85e8624cb8eb\"))",
+							criteria: "(lid.contains(\""+id["id"]+"\"))",
 							data:{
 								Relation_to_Applicant:formState.inputs.relation.value
 							}
@@ -205,7 +207,6 @@ const Personal=(props)=>{
 		element=<Loader asOverlay />
 	}else if(parseInt(pid)>=2){
 		if(user && user.Relation_to_Applicant){
-			console.log("jjjjjjjjjjjjjjjjjjjjj")
 			element=(
 				<React.Fragment>
 				<Status status={pid}/>
