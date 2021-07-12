@@ -37,7 +37,7 @@ const UserStatus=(props)=>{
 	useEffect(()=>{
 		const getDetails=async ()=>{
 			try{
-				res=await sendReq("http://localhost:5000/getstatusetails",
+				res=await sendReq("http://65.1.107.76:5001/getstatusetails",
 					"GET",
 					null,
 					{

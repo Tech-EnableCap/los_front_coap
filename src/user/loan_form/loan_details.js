@@ -78,7 +78,7 @@ const LoanDetails=(props)=>{
 				const storedId=JSON.parse(localStorage.getItem('lid'));
 				if(storedId){
 					lid=storedId.lid;
-					res=await sendReq("http://localhost:5000/getloandetails",
+					res=await sendReq("http://65.1.107.76:5001/getloandetails",
 						"GET",
 						null,
 						{
@@ -289,12 +289,12 @@ const LoanDetails=(props)=>{
 	let component=null;
 
 	if(front){
-		component=<Residence go="update"/>;
+		component=<Residence/>;
 	}else if(back){
-		component=<Personal go="update"/>;
+		component=<Personal/>;
 	}else if(loading){
 		component=<Loader asOverlay />
-	}else if(props.go && parseInt(pid)>=2){
+	}else if(parseInt(pid)>=2){
 		if(user && user.Institute_Type){
 			component=(
 				<React.Fragment>

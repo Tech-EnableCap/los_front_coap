@@ -70,7 +70,7 @@ const Personal=(props)=>{
 				if(storedId && storelId){
 					uid=storedId.uid;
 					lid=storelId.lid;
-					const res=await sendReq("http://localhost:5000/getUserformcoapp",
+					const res=await sendReq("http://65.1.107.76:5001/getUserformcoapp",
 						"GET",
 						null,
 						{
@@ -128,7 +128,7 @@ const Personal=(props)=>{
 				uid=storedId.uid;
 			}
 			if(uid && pid==1){
-				res=await sendReq('http://localhost:5000/coapppersonal',
+				res=await sendReq('http://65.1.107.76:5001/coapppersonal',
 					'POST',
 					JSON.stringify({
 						content1:{
@@ -198,13 +198,14 @@ const Personal=(props)=>{
 	let element=null;
 
 	if(front){
-		element=<LoanDetails go="update"/>
+		element=<LoanDetails/>
 	}else if(back){
-		element=<Form go="update"/>
+		element=<Form/>
 	}else if(loading){
 		element=<Loader asOverlay />
-	}else if(props.go && parseInt(pid)>=2){
+	}else if(parseInt(pid)>=2){
 		if(user && user.Relation_to_Applicant){
+			console.log("jjjjjjjjjjjjjjjjjjjjj")
 			element=(
 				<React.Fragment>
 				<Status status={pid}/>

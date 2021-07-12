@@ -90,7 +90,7 @@ const Residence=(props)=>{
 				const storedId=JSON.parse(localStorage.getItem('id'));
 				if(storedId){
 					uid=storedId.uid;
-					res=await sendReq("http://localhost:5000/getUserform1",
+					res=await sendReq("http://65.1.107.76:5001/getUserform1",
 						"GET",
 						null,
 						{
@@ -229,7 +229,7 @@ const Residence=(props)=>{
 				uid=storedId.uid;
 			}
 			if(uid && pid==3){
-				const res=await sendReq('http://localhost:5000/form2',
+				const res=await sendReq('http://65.1.107.76:5001/form2',
 					'POST',
 					JSON.stringify({
 						data:{
@@ -326,12 +326,12 @@ const Residence=(props)=>{
 
 	let component=null;
 	if(front){
-		component=<WorkDetails go="update"/>;
+		component=<WorkDetails/>;
 	}else if(back){
-		component=<LoanDetails go="update"/>;
+		component=<LoanDetails/>;
 	}else if(loading){
 		component=<Loader asOverlay />
-	}else if(props.go && parseInt(pid)>=4){
+	}else if(parseInt(pid)>=4){
 		if(user && user.per_res_addr){
 			component=(
 				<React.Fragment>

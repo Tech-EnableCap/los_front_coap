@@ -77,7 +77,7 @@ const Form=(props)=>{
 				const storedId=JSON.parse(localStorage.getItem('id'));
 				if(storedId){
 					uid=storedId.uid;
-					res=await sendReq("http://localhost:5000/getUserform1",
+					res=await sendReq("http://65.1.107.76:5001/getUserform1",
 						"GET",
 						null,
 						{
@@ -150,6 +150,10 @@ const Form=(props)=>{
 		setComeOtp(true);
 	}
 
+	const closeBlock=()=>{
+		setComeOtp(false);
+	}
+
 	const handleOtp=()=>{
 		setOtpValid(true);
 		alert("otp validated, press next and continue !!");
@@ -183,7 +187,7 @@ const Form=(props)=>{
 				console.log(res)
 			}else*/ 
 			if(!uid && otpValid){
-				res=await sendReq('http://localhost:5000/coappidentification',
+				res=await sendReq('http://65.1.107.76:5001/coappidentification',
 					'POST',
 						JSON.stringify({
 							content1:{
@@ -280,15 +284,21 @@ const Form=(props)=>{
 
 	if(comeOtp){
 		otp_part=(
-			<React.Fragment>
-			<Input element="input" type="text" label="otp"
-			id="otp" 
-			validators={[VALIDATOR_REQUIRE(),VALIDATOR_NUMBER()]}
-			placeholder="enter otp" 
-			errorText="Please input otp"
-			onInput={otp_handler} />
-			<Button type="button" onClick={handleOtp} disabled={!otp_form.isValid}>Validate otp</Button>
-			</React.Fragment>
+			<SweetAlert
+		       show={comeOtp}
+		        style={{backgroundImage:"linear-gradient(rgb(255 252 252),transparent)"}}
+		         customButtons={
+		          <Button onClick={closeBlock}>Cancel</Button>
+		        }
+		      ><div><center><React.Fragment><Input element="input" type="text" label="OTP"
+							id="otp" 
+							validators={[VALIDATOR_REQUIRE(),VALIDATOR_NUMBER()]}
+							placeholder="enter otp" 
+							errorText="Please input otp"
+							onInput={otp_handler} />
+							<Button type="button" onClick={handleOtp} disabled={!otp_form.isValid}>Validate otp</Button>
+							</React.Fragment></center></div>
+		    </SweetAlert>	
 		);
 	}else{
 		otp_part=null;
@@ -300,10 +310,10 @@ const Form=(props)=>{
 
 	let component=null;
 	if(next){
-		component=<Personal go="update"/>;
+		component=<Personal/>;
 	}else if(loading){
 		component=<Loader asOverlay />
-	}else if(props.go && parseInt(pid)>=1){
+	}else if(parseInt(pid)>=1){
 		if(user){
 		component=(
 			<React.Fragment>
