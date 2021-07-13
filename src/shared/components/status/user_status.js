@@ -1,5 +1,4 @@
 import React,{useState,useEffect} from 'react';
-import {useParams} from "react-router-dom";
 import './status.css';
 import logo from '../../../Man-Using-Computer.svg';
 import {Link} from 'react-router-dom';
@@ -9,15 +8,7 @@ import Err from '../../../ui/error.js';
 import {useHttp} from '../../../shared/hooks/http_hook';
 
 const UserStatus=(props)=>{
-	const id=useParams();
-
-	const url=JSON.parse(localStorage.getItem('url'));
-	if(!url){
-		localStorage.setItem(
-			'url',
-			JSON.stringify({url:id["id"]})
-		);
-	}
+	const id=JSON.parse(localStorage.getItem('url'));
 	let element=null;
 	let st_list=["Authentication done","Personal information filled","Loan details filled","Residence details filled","Work details filled","Documents upoload done"];
 	let st_data=[];
@@ -36,30 +27,33 @@ const UserStatus=(props)=>{
 
 	useEffect(()=>{
 		const getDetails=async ()=>{
-			try{
-				res=await sendReq("http://65.1.107.76:5001/getstatusetails",
-					"GET",
-					null,
-					{
-						"cors":"no-cors",
-						"id":id["id"]
-					}
-				);
-				if("success" in res.msg){
-					if("data" in res.msg.success){
-						setUser(res.msg.success.data);
+			if(!props.err){
+				try{
+					res=await sendReq("http://65.1.107.76:5001/getstatusetails",
+						"GET",
+						null,
+						{
+							"cors":"no-cors",
+							"id":id["url"]
+						}
+					);
+					console.log(res);
+					if("success" in res.msg){
+						if(res.msg.success.code===3000){
+							setUser(res.msg.success.data);
+						}else{
+							setErr("no data found");
+						}
 					}else{
 						setErr("server error");
 					}
-				}else{
-					setErr("server error");
+				}catch(err){
+					setErr("Server Error "+err);
 				}
-			}catch(err){
-				setErr(err);
 			}
 		}
 		getDetails();
-	},[sendReq]);
+	},[sendReq,setUser,props]);
 
 	const clean=()=>{
 		setErr(false);
@@ -81,7 +75,7 @@ const UserStatus=(props)=>{
 		detail_block=null;
 	}
 
-	if(pid){
+	if(pid && !props.err){
 		for (let i=0;i<st_list.length;i++){
 			if(i>pid-1){
 				break;
@@ -105,7 +99,7 @@ const UserStatus=(props)=>{
 				<h1><center>Your status</center></h1>
 				<hr/>
 				{st_data}
-				<Link to={`/${id["id"]}/form`} className="button">Go to Form</Link>
+				<Link to={`/${id["url"]}/form`} className="button">Go to Form</Link>
 			 </div>);
 	}else{
 		element=(<div className="no-applications">
@@ -114,7 +108,7 @@ const UserStatus=(props)=>{
 				{props.err ? "Server error, just don't panic !" : "Fill application form and view status"}
 			</div>
 			<div className="help-text">
-				{props.err ? <Button onClick={props.reload}>Retry</Button> : <Link to={`/${id["id"]}/form`} className="btn btn-primary">Go to form</Link>}
+				{props.err ? <Button onClick={props.reload}>Retry</Button> : <Link to={`/${id["url"]}/form`} className="btn btn-primary">Go to form</Link>}
 			</div>
 		</div>);
 	}

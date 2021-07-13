@@ -5,7 +5,6 @@ import Form from './form';
 import {useForm} from '../../shared/hooks/form_hook';
 import Input from '../../shared/components/formelements/input';
 import {VALIDATOR_REQUIRE} from '../../shared/util/validator';
-import {useParams} from "react-router-dom";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import LoanDetails from './loan_details';
@@ -18,7 +17,7 @@ import Status from '../../shared/components/status/status';
 
 
 const Personal=(props)=>{
-	const id=useParams();
+	const id=JSON.parse(localStorage.getItem('url'));
 	let uid=null;
 	let pid=null;
 	let res=null;
@@ -142,7 +141,7 @@ const Personal=(props)=>{
 							}
 						},
 						content2:{
-							criteria: "(lid.contains(\""+id["id"]+"\"))",
+							criteria: "(lid.contains(\""+id["url"]+"\"))",
 							data:{
 								Relation_to_Applicant:formState.inputs.relation.value
 							}

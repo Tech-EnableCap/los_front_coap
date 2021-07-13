@@ -2,7 +2,6 @@ import React,{useState,useEffect} from 'react';
 import './form.css';
 import Input from '../../shared/components/formelements/input';
 import {VALIDATOR_REQUIRE,VALIDATOR_EMAIL,VALIDATOR_PHONE,VALIDATOR_NUMBER} from '../../shared/util/validator';
-import {useParams} from "react-router-dom";
 import Personal from './personal_details';
 import {useForm} from '../../shared/hooks/form_hook';
 import {useHttp} from '../../shared/hooks/http_hook';
@@ -15,7 +14,8 @@ import Status from '../../shared/components/status/status';
 import SweetAlert from 'react-bootstrap-sweetalert';
 
 const Form=(props)=>{
-	const id=useParams();
+	const id=JSON.parse(localStorage.getItem('url'));
+	//console.log(id["id"]);
 	let uid=null;
 	let pid=null;
 	let res=null;
@@ -217,7 +217,7 @@ const Form=(props)=>{
 							}
 						},
 						content2:{
-							criteria: "(lid.contains(\""+id["id"]+"\"))",
+							criteria: "(lid.contains(\""+id["url"]+"\"))",
 							data:{
 								coapp_Name:{
 									prefix:"",

@@ -276,7 +276,7 @@ const WorkDetails=(props)=>{
 		component=<Residence/>
 	}else if(loading){
 		component=<Loader asOverlay />
-	}else if(props.go && parseInt(pid)>=5){
+	}else if(parseInt(pid)>=5){
 		if(user && user.pan){
 			component=(
 				<React.Fragment>
@@ -415,6 +415,8 @@ const WorkDetails=(props)=>{
 					</React.Fragment>
 
 			);
+		}else{
+			component=<UserStatus err={true} reload={reloadHandle}/>;
 		}
 	}else{
 		component=(
